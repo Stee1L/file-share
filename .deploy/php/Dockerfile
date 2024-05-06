@@ -28,7 +28,7 @@ RUN rm -rf /var/cache/apk/* && docker-php-source delete
 RUN addgroup -g 1000 -S $USER && \
     adduser -u 1000 -S $USER -G $USER
 
-COPY --chown=$USER:$USER ./Source /project
+COPY --chown=$USER:$USER ./src /project
 
 USER $USER
 
