@@ -16,7 +16,7 @@ class FileController extends Controller
     {
         $file = $request->file('file');
         $originalExt = $file->extension();
-        $newName = \Faker\Provider\Uuid::uuid() . 'Controllers' .$originalExt;
+        $newName = \Faker\Provider\Uuid::uuid() . '.' .$originalExt;
         File::create([
             'path'=>$file->storeAs('files', $newName, 'public'),
             'original_name'=>$file->getClientOriginalName(),
@@ -32,6 +32,34 @@ class FileController extends Controller
     {
         return FileResource::collection(auth()->user()->files);
     }
+
+    public function deleteFile(Request $request, File $file)
+    {
+        $filePath = $file->path;
+        $file->delete();
+
+        // Уведомление о приключении удаления файла :)
+        $messages = [
+            "Следующий уровень: Удаление файла '{$file->original_name}' успешно завершено!",
+            "Файл '{$file->original_name}' удален! Кажется, вы освободили место для новых приключений!",
+            "Конец файла '{$file->original_name}'! Следующий!",
+            "Удалено: '{$file->original_name}'. Миссия выполнена!",
+            "Файл '{$file->original_name}' исчез! Но не беспокойтесь, ваше приключение продолжается!"
+        ];
+
+        $randomMessage = $messages[array_rand($messages)];
+
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
+
+        // возвращаем успешный ответ с прикольным сообщением
+        return response()->json(['success' => true, 'message' => $randomMessage]);
+    }
+
+
+
 
     public function downloadFile(Request $request, File $file)
     {

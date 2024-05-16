@@ -11,6 +11,9 @@ class APIAuthController extends Controller
 {
     public function register(Request $request)
     {
+
+        $this->authorize('create', User::class);
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -31,6 +34,8 @@ class APIAuthController extends Controller
 
         // 3
         $token = $user->createToken(rand())->plainTextToken;
+
+
 
         // 4
         return response()->json(['token' => $token], 200);

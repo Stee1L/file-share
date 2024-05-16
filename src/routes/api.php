@@ -29,9 +29,13 @@ Route::get('unfoUser', \App\Http\Controllers\UserController::class);
 
     Route::get('/user-files', [\App\Http\Controllers\FileController::class, 'getFiles']);
 
+    Route::post('register', [\App\Http\Controllers\APIAuthController::class, 'register']);
+
+    Route::delete('del/{file}', [\App\Http\Controllers\FileController::class, 'deleteFile']);
+
+
 });
 
-Route::post('register', [\App\Http\Controllers\APIAuthController::class, 'register']);
 Route::post('token', [\App\Http\Controllers\APIAuthController::class, 'token']);
 
 

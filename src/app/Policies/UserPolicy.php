@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\File;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class FilePolicy
+class UserPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,9 +19,9 @@ class FilePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, File $file): bool
+    public function view(User $user, User $model): bool
     {
-        return $user->id === $file->user_id;
+        //
     }
 
     /**
@@ -29,13 +29,13 @@ class FilePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasRole('Администратор');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, File $file): bool
+    public function update(User $user, User $model): bool
     {
         //
     }
@@ -43,15 +43,15 @@ class FilePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, File $file): bool
+    public function delete(User $user, User $model): bool
     {
-     return $user->id === $file->user_id;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, File $file): bool
+    public function restore(User $user, User $model): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class FilePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, File $file): bool
+    public function forceDelete(User $user, User $model): bool
     {
         //
     }
