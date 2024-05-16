@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+            $table->integer('folder_id');
             $table->text('path');
             $table->text('original_name');
             $table->integer('user_id');
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('files_tables');
+        Schema::dropIfExists('files');
     }
 };

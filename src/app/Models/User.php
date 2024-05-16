@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'users_roles');
     }
 
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
 }
 
 // "token": "1|8onuf05ESIWf8pOIihLKW7UcESQSophhZ9cVzxrv704782ed"
