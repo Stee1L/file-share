@@ -40,11 +40,5 @@ class CreateCatRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'status' => 'Ошибка',
-            'message' => $validator->errors()->all(),
-        ], 422));
-    }
+
 }
