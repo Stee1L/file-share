@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Src\Request\LoginRequest;
+use App\Src\Request\UserRequest;
+use App\Src\Response\LoginResource;
+use App\Src\Response\UserResource;
+use App\Src\Services\UserService;
+use Illuminate\Auth\Access\AuthorizationException;
+
 class UserController extends Controller
 {
-    public function __invoke()
+    public function login(LoginRequest $request): LoginResource
     {
-        $user = auth()->user();
-        return response()->json(
-            ["id"=>$user->id,
-                "name"=>$user->name,
-                "email"=>$user->email,
-                "Дата регистрации"=>$user->created_at,
-                "Роль"=>$user->roles->first()->name,
-                "Харак"=>$user->roles->first()->slug,
-            ]
-        );
+        return UserService::createToken($request);
     }
 
+    public function create(UserRequest $request): UserResource
+    {
+        $this->authorize('create', User::class);
+        return UserService::createUser($request);
+    }
 
 }

@@ -2,12 +2,13 @@
 
 namespace App\Policies;
 
-use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\Src\Constant\RoleConstant;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
+    use HandlesAuthorization;
     /**
      * Determine whether the user can view any models.
      */
@@ -29,7 +30,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('Администратор');
+        return $user->hasRole(RoleConstant::ADMIN->value);
     }
 
     /**

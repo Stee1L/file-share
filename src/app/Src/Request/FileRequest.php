@@ -1,11 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Src\Request;
 
+use App\Traits\ValidationErr;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+
+/**
+ * @property UploadedFile $file
+ */
 class FileRequest extends FormRequest
 {
+    use ValidationErr;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,7 +29,7 @@ class FileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required'
+            'file' => 'required|file'
         ];
     }
 }

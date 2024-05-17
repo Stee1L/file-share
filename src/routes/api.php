@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,14 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('token', [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function (){
 
-Route::get('unfoUser', \App\Http\Controllers\UserController::class);
+    Route::post('create-user', [UserController::class, 'create']);
 
     Route::post('upload', [\App\Http\Controllers\FileController::class, 'uploadFile']);
 
@@ -29,18 +27,9 @@ Route::get('unfoUser', \App\Http\Controllers\UserController::class);
 
     Route::get('/user-files', [\App\Http\Controllers\FileController::class, 'getFiles']);
 
-    Route::post('register', [\App\Http\Controllers\APIAuthController::class, 'register']);
-
     Route::delete('del/{file}', [\App\Http\Controllers\FileController::class, 'deleteFile']);
 
 
-});
-
-Route::post('token', [\App\Http\Controllers\APIAuthController::class, 'token']);
-
-
-Route::middleware('auth:sanctum')->get('/name', function (Request $request) {
-    return response()->json(['name' => $request->user()->name]);
 });
 
 Route::apiResource('cats', \App\Http\Controllers\CatController::class);

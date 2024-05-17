@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Src\Request;
 
+use App\Traits\ValidationErr;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CreateCatRequest extends FormRequest
 {
+    use ValidationErr;
     /**
      * Determine if the user is authorized to make this request.
      */
