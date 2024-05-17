@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Folder;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,7 +13,9 @@ class APIAuthController extends Controller
     public function register(Request $request)
     {
 
-        $this->authorize('create', User::class);
+
+
+        //$this->authorize('create', User::class);
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
@@ -37,8 +40,16 @@ class APIAuthController extends Controller
 
 
 
+        Folder::create([
+            'name'=> 'root',
+            'is_root'=> true,
+            'user_id'=>$user->id
+        ]);
+
+
         // 4
         return response()->json(['token' => $token], 200);
+
     }
 
     public function token(Request $request)
@@ -65,4 +76,6 @@ class APIAuthController extends Controller
         // 4
         return response()->json(['token' => $user->createToken(rand())->plainTextToken]);
     }
+
+
 }
