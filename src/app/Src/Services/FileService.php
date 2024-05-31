@@ -4,6 +4,7 @@ namespace App\Src\Services;
 
 use App\Models\File;
 use App\Models\User;
+use App\Src\Request\CreateFileRequest;
 use App\Src\Request\FileRequest;
 use App\Src\Response\FileDeleteResource;
 use App\Src\Response\FileResource;
@@ -12,16 +13,30 @@ use Ramsey\Uuid\Uuid;
 
 class FileService
 {
-    public static function upload(FileRequest $request, User $currentUser): FileResource {
+    public static function upload(File $file, FileRequest $request): FileResource {
         $originalExt = $request->file->getClientOriginalExtension();
         $newName = Uuid::uuid4()->toString() . '.' . $originalExt;
-        $file = File::create([
+        $file->update([
             'path'=> $request->file->storeAs('files', $newName, 'public'),
             'original_name' => $request->file->getClientOriginalName(),
-            'user_id'=>$currentUser->id
         ]);
 
         return new FileResource($file);
+    }
+
+    public static function createFile(CreateFileRequest $request, User $currentUser)
+    {
+        $file = File::create([
+            'path'=> '' ,
+            'original_name' => '',
+            'user_id'=> $currentUser->id,
+            'folder_id'=> is_null($request->parent) ? $currentUser->folders->where('folder_id', null)
+                ->first()->id : $request -> parent
+        ]);
+
+        return [
+            'file_id'=>$file-> id
+        ];
     }
 
 

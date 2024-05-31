@@ -19,14 +19,20 @@ class UserService
     {
         $request->password = Hash::make($request->password);
 
-        $createUser = User::create($request->all());
+        $createUser = User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>$request->password
+        ]);
 
         $createUser->roles()
             ->sync(Role::where('name', RoleConstant::USER)->first());
 
-        $createUser = Folder::create(
+        Folder::create(
             [
-                'user_id' => $createUser
+                'user_id' => $createUser -> id,
+                'is_root' => true,
+                'name' => 'root'
             ]
         );
         return new UserResource($createUser);

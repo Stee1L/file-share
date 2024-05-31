@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Src\Request\CreateFileRequest;
 use App\Src\Request\FileRequest;
 use App\Src\Response\FileResource;
 use App\Src\Services\FileService;
+use App\Src\Response\DownloadFile;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function uploadFile(FileRequest $request): FileResource
+    public function uploadFile(FileRequest $request, File $file): FileResource
     {
-        return FileService::upload($request, auth()->user());
+        return FileService::upload($file, $request);
     }
 
     public function getFiles()
@@ -26,10 +28,14 @@ class FileController extends Controller
         return FileService::delete($file);
     }
 
+    public function createFile(CreateFileRequest $request)
+    {
+        return FileService::createFile($request, auth()->user());
+    }
 
-    public function downloadFile(Request $request, File $file)
+    public function downloadFile(File $file)
     {
         $this->authorize('view', $file);
-        return FileService::download($file, auth()->user());
+        return DownloadFile::make($file);
     }
 }
