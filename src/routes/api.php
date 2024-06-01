@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::delete('del/{file}', [\App\Http\Controllers\FileController::class, 'deleteFile']);
 
+    Route::post('folders', [\App\Http\Controllers\FolderController::class, 'create']);
+
 
 });
 

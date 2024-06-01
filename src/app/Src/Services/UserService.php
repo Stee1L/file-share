@@ -22,7 +22,6 @@ class UserService
 
         $createUser->roles()
             ->sync(Role::where('name', RoleConstant::USER)->first());
-
         //TODO: Add create root folder
         return new UserResource($createUser);
     }
