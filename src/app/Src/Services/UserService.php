@@ -2,7 +2,6 @@
 
 namespace App\Src\Services;
 
-use App\Models\Folder;
 use App\Models\Role;
 use App\Models\User;
 use App\Src\Constant\RoleConstant;

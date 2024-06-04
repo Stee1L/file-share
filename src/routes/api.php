@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::post('create-user', [UserController::class, 'create']);
 
-    Route::post('upload/{file}', [\App\Http\Controllers\FileController::class, 'uploadFile']);
+    Route::post('upload', [\App\Http\Controllers\FileController::class, 'uploadFile']);
 
     Route::get('download/{file}', [\App\Http\Controllers\FileController::class, 'downloadFile']);
 
@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::delete('del/{file}', [\App\Http\Controllers\FileController::class, 'deleteFile']);
 
-    Route::post('create-file', [\App\Http\Controllers\FileController:: class, 'createFile']);
+    Route::post('folders', [\App\Http\Controllers\FolderController::class, 'create']);
 
 
 });
