@@ -2,10 +2,13 @@
 
 namespace App\Src\Services;
 
+use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
+use App\Src\Error\CustomError;
 use App\Src\Request\FolderRequest;
 use App\Src\Response\FolderResource;
+use Illuminate\Support\Facades\Storage;
 
 class FolderService
 {
@@ -19,5 +22,30 @@ class FolderService
         ]);
 
         return FolderResource::make($newFolder);
+    }
+
+    public static function delete(Folder $folder): int {
+        if ($folder->is_root) {
+            throw new CustomError(message: "Данную папку нельзя удалить");
+        }
+        $fileDelete = 0;
+        $folder->childrens->each(function (Folder $folder) use(&$fileDelete) {
+            $folder->files->each(function (File $file) use(&$fileDelete) {
+                Storage::disk('public')->delete($file->path);
+                $file->delete();
+                $fileDelete+=1;
+            });
+            $folder->delete();
+        });
+
+        $folder->files->each(function (File $file) use(&$fileDelete) {
+            Storage::disk('public')->delete($file->path);
+            $file->delete();
+            $fileDelete+=1;
+        });
+
+        $folder->delete();
+
+        return $fileDelete;
     }
 }

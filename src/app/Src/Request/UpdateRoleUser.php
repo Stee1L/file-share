@@ -3,11 +3,9 @@
 namespace App\Src\Request;
 
 use App\Traits\ValidationErr;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateCatRequest extends FormRequest
+class UpdateRoleUser extends FormRequest
 {
     use ValidationErr;
     /**
@@ -26,17 +24,7 @@ class CreateCatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|max:120',
-            'type'=>'required|max:120',
-            'Eyes'=>'required|max:120'
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name.required'=>'Имя обязательно для заполнения',
-            'type'=>'Значение поля порода не валидна'
+            'name'=>'required|in:Администратор,Пользователь',
         ];
     }
 }

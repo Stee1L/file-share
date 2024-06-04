@@ -37,7 +37,7 @@ class FilePolicy
      */
     public function update(User $user, File $file): bool
     {
-        //
+        return $user->id === $file->user_id;
     }
 
     /**

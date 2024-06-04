@@ -21,16 +21,24 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::post('create-user', [UserController::class, 'create']);
 
-    Route::post('upload', [\App\Http\Controllers\FileController::class, 'uploadFile']);
+    Route::post('files/upload/{file}', [\App\Http\Controllers\FileController::class, 'uploadFile']);
+    Route::post('files/create', [\App\Http\Controllers\FileController::class, 'createFile']);
 
     Route::get('download/{file}', [\App\Http\Controllers\FileController::class, 'downloadFile']);
+
+    Route::put('files/update/{file}', [\App\Http\Controllers\FileController::class, 'update']);
+
+    Route::put('files/move/{file}', [\App\Http\Controllers\FileController::class, 'move']);
 
     Route::get('/user-files', [\App\Http\Controllers\FileController::class, 'getFiles']);
 
     Route::delete('del/{file}', [\App\Http\Controllers\FileController::class, 'deleteFile']);
 
     Route::post('folders', [\App\Http\Controllers\FolderController::class, 'create']);
+    Route::delete('folders/{folder}', [\App\Http\Controllers\FolderController::class, 'delete']);
 
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'all']);
+    Route::put('users/{user}', [UserController::class, 'update']);
 
 });
 

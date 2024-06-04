@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Collection $childrens
+ * @property Collection $files
+ */
 class Folder extends Model
 {
     use HasFactory;
-    public $timestamps = false;
 
     protected $fillable = [
         'is_root',

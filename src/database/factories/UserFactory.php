@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Folder;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,8 +27,6 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => hash::make('12345678'),
             'remember_token' => Str::random(10),
-
-
         ];
 
     }
@@ -41,6 +40,11 @@ class UserFactory extends Factory
             ];
         })->afterCreating(function (User $user) {
             $user->roles()->attach(Role::find(1));
+            Folder::create([
+                'is_root'=>true,
+                'name'=>'root',
+                'user_id'=>$user->id
+            ]);
         });
     }
 
